@@ -6,23 +6,23 @@ export default class Header extends Component {
   render() {
     return (
       <header className="Header">
-        <nav class="nav">
+        <nav className="nav">
           <NavLink className="link-item" exact to="/Countries">
             Rest Countries
           </NavLink>
 
-          <ul class="links">
-            <li class="link-item">
+          <ul className="links">
+            <li className="link-item">
               <NavLink exact to="/">
                 All countries
               </NavLink>
             </li>
 
-            <li class="link-item">
+            <li className="link-item">
               <NavLink to="/eu-countries">EU countries</NavLink>
             </li>
 
-            <li class="link-item">
+            <li className="link-item">
               <NavLink to="/search-countries">Search countries</NavLink>
             </li>
           </ul>

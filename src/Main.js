@@ -8,7 +8,7 @@ import './Main.css';
 export default class Main extends Component {
   render() {
     return (
-      <main>
+      <main className="Main">
         <Route exact path="/" component={Countries} />
         <Route path="/eu-countries" component={EuropeanCountries} />
         <Route path="/search-countries" component={SearchCountries} />
