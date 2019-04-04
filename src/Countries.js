@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import { Header, Button, Popup, Grid } from 'semantic-ui-react';
 import './Countries.css';
 import 'react-table/react-table.css';
+import 'semantic-ui-css/semantic.min.css';
 
 export default class Countries extends Component {
   state = {
@@ -9,10 +11,14 @@ export default class Countries extends Component {
   };
 
   async componentDidMount() {
-    const url = 'https://restcountries.eu/rest/v2/all';
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ countries: data });
+    try {
+      const url = 'https://restcountries.eu/rest/v2/all';
+      const response = await fetch(url);
+      const data = await response.json();
+      this.setState({ countries: data });
+    } catch (error) {
+      throw Error(error);
+    }
   }
 
   render() {
@@ -27,7 +33,7 @@ export default class Countries extends Component {
         accessor: 'capital'
       },
       {
-        Header: 'Alpha2Code',
+        Header: 'Alpha-2 code',
         accessor: 'alpha2Code'
       }
     ];
@@ -40,17 +46,37 @@ export default class Countries extends Component {
           className="-striped -highlight"
           data={countries}
           columns={columns}
-          getTdProps={(state, rowInfo) => {
-            return {
-              onClick: () => {
-                /*TO DO : Add Popup with info below on click event*/
-                console.log(rowInfo.original.name);
-                console.log(rowInfo.original.capital);
-                console.log(rowInfo.original.alpha2Code);
-                console.log(rowInfo.original.region);
-                console.log(rowInfo.original.population);
-              }
-            };
+          SubComponent={row => {
+            return (
+              <Popup trigger={<Button>More info</Button>} flowing on="click">
+                <Grid centered divided padded columns="equal">
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Name</Header>
+                    <p>{row.original.name}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Capital</Header>
+                    <p>{row.original.capital}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">A2 code</Header>
+                    <p>{row.original.alpha2Code}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Region</Header>
+                    <p>{row.original.region}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Population</Header>
+                    <p>{row.original.population}</p>
+                  </Grid.Column>
+                </Grid>
+              </Popup>
+            );
           }}
         />
       </div>
