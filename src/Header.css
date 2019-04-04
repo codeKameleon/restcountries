@@ -1,8 +1,13 @@
 .Header {
+  position: fixed;
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   height: 60px;
+  border-bottom: 3px solid #176161;
+  background-color: #228a8a;
 }
 
 .nav {
@@ -15,11 +20,50 @@
 }
 
 .links {
-  list-style-type: none;
   display: flex;
   justify-content: space-around;
+  list-style-type: none;
 }
 
 .link-item {
   padding: 0 8px;
+}
+
+.home-link {
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.home-link:hover {
+  color: #fff;
+}
+
+.link {
+  position: relative;
+  color: #fff;
+  font-size: 16px;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: #fff;
+  transition: width 100ms ease-in-out;
+}
+
+.link:hover {
+  color: #fff;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.active::after {
+  width: 100%;
 }

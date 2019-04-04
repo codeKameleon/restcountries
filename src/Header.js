@@ -7,23 +7,35 @@ export default class Header extends Component {
     return (
       <header className="Header">
         <nav className="nav">
-          <NavLink className="link-item" exact to="/">
+          <NavLink className="home-link" exact to="/">
             Rest Countries
           </NavLink>
 
           <ul className="links">
             <li className="link-item">
-              <NavLink exact to="/">
-                All countries
+              <NavLink className="link" activeClassName="active" exact to="/">
+                All
               </NavLink>
             </li>
 
             <li className="link-item">
-              <NavLink to="/eu-countries">EU countries</NavLink>
+              <NavLink
+                className="link"
+                activeClassName="active"
+                to="/eu-countries"
+              >
+                EU
+              </NavLink>
             </li>
 
             <li className="link-item">
-              <NavLink to="/search-countries">Search countries</NavLink>
+              <NavLink
+                className="link"
+                activeClassName="active"
+                to="/search-countries"
+              >
+                Search
+              </NavLink>
             </li>
           </ul>
         </nav>
