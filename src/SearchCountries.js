@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Input } from 'semantic-ui-react';
+import ReactTable from 'react-table';
+import { Header, Button, Popup, Grid, Input } from 'semantic-ui-react';
 import './SearchCountries.css';
+import 'react-table/react-table.css';
 import 'semantic-ui-css/semantic.min.css';
 
 export default class SearchCountries extends Component {
@@ -10,10 +12,14 @@ export default class SearchCountries extends Component {
   };
 
   async componentDidMount() {
-    const url = 'https://restcountries.eu/rest/v2/all';
-    const response = await fetch(url);
-    const data = await response.json();
-    this.setState({ countries: data });
+    try {
+      const url = 'https://restcountries.eu/rest/v2/all';
+      const response = await fetch(url);
+      const data = await response.json();
+      this.setState({ countries: data });
+    } catch (error) {
+      throw Error(error);
+    }
   }
 
   updateSearch = e => {
@@ -27,6 +33,21 @@ export default class SearchCountries extends Component {
         .includes(this.state.search.toLowerCase());
     });
 
+    const columns = [
+      {
+        Header: 'Name',
+        accessor: 'name'
+      },
+      {
+        Header: 'Capital',
+        accessor: 'capital'
+      },
+      {
+        Header: 'Alpha-2 code',
+        accessor: 'alpha2Code'
+      }
+    ];
+
     return (
       <div>
         <h1>Search countries</h1>
@@ -38,27 +59,43 @@ export default class SearchCountries extends Component {
           onChange={this.updateSearch}
         />
 
-        <Table striped>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Capital City</Table.HeaderCell>
-              <Table.HeaderCell>Alpha2 Code</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+        <ReactTable
+          className="-striped -highlight"
+          data={filteredCountries}
+          columns={columns}
+          SubComponent={row => {
+            return (
+              <Popup trigger={<Button>More info</Button>} flowing on="click">
+                <Grid centered divided padded columns="equal">
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Name</Header>
+                    <p>{row.original.name}</p>
+                  </Grid.Column>
 
-          <Table.Body>
-            {filteredCountries.map(country => {
-              return (
-                <Table.Row key={country.alpha2Code}>
-                  <Table.Cell>{country.name}</Table.Cell>
-                  <Table.Cell>{country.capital}</Table.Cell>
-                  <Table.Cell>{country.alpha2Code}</Table.Cell>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-        </Table>
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Capital</Header>
+                    <p>{row.original.capital}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">A2 code</Header>
+                    <p>{row.original.alpha2Code}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Region</Header>
+                    <p>{row.original.region}</p>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign="center">
+                    <Header as="h4">Population</Header>
+                    <p>{row.original.population}</p>
+                  </Grid.Column>
+                </Grid>
+              </Popup>
+            );
+          }}
+        />
       </div>
     );
   }

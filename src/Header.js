@@ -7,7 +7,7 @@ export default class Header extends Component {
     return (
       <header className="Header">
         <nav className="nav">
-          <NavLink className="link-item" exact to="/Countries">
+          <NavLink className="link-item" exact to="/">
             Rest Countries
           </NavLink>
 
